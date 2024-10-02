@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 
-const Player = ({ name, symbol }) => {
+const Player = ({ initialName, symbol }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [playerName, setPlayerName] = useState(initialName);
 
   const handleClick = () => {
-    setIsEditing(!isEditing);
-    console.log(isEditing);
+    setIsEditing((editing) => !editing);
+    
   };
+
+  const handleChange = (event) => {
+    setPlayerName(event.target.value)
+  }
 
   return (
     <li>
       <span className="player">
-        {!isEditing && <span className="player-name">{name}</span>}
-        {isEditing && <input type="text" value={name}/>}
+        {!isEditing && <span className="player-name">{playerName}</span>}
+        {isEditing && <input type="text" required value={playerName} onChange={handleChange}/>}
 
         <span className="player-symbol">{symbol}</span>
       </span>
