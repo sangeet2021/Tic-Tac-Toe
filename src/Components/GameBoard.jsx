@@ -6,16 +6,24 @@ const initialGameBoard = [
   [null, null, null],
 ];
 
-const Gameboard = ({ onSelectSquare, activePlayerSymbol }) => {
-  const [gameBoard, setGameBoard] = useState(initialGameBoard);
-  const handleClick = (rowIndex, colIndex) => {
-    setGameBoard((prevBoard) => {
-      const updatedBoard = [...prevBoard.map((innerArray) => [...innerArray])];
-      updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
-      return updatedBoard;
-    });
-    onSelectSquare();
-  };
+const Gameboard = ({ onSelectSquare, turns}) => {
+  // const [gameBoard, setGameBoard] = useState(initialGameBoard);
+  // const handleClick = (rowIndex, colIndex) => {
+  //   setGameBoard((prevBoard) => {
+  //     const updatedBoard = [...prevBoard.map((innerArray) => [...innerArray])];
+  //     updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
+  //     return updatedBoard;
+  //   });
+  //   onSelectSquare();
+  // };
+
+  let gameBoard = initialGameBoard;
+  for (const turn of turns) {
+    const { square, player } = turn;
+    const {row, col} = square;
+
+    gameBoard[row][col] = player;
+  }
   return (
     <ol id="game-board">
       {gameBoard.map((row, rowIndex) => (
@@ -23,7 +31,7 @@ const Gameboard = ({ onSelectSquare, activePlayerSymbol }) => {
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button onClick={() => handleClick(rowIndex, colIndex)}>
+                <button onClick={() => onSelectSquare(rowIndex, colIndex)}>
                   {playerSymbol}
                 </button>
               </li>
